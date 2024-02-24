@@ -5,8 +5,8 @@
 using namespace std;
 struct BOOK
 {
-    int NumberUDK = 0,KOLVOEKZ = 0, DATA = 0;
-    string AUTOR="none", NAMEBOOK="none";
+    int NumberUDK = 0, KOLVOEKZ = 0, DATA = 0;
+    string AUTOR = "none", NAMEBOOK = "none";
 };
 struct bibl
 {
@@ -26,7 +26,7 @@ struct bibl
     {
         BOOK data;
         node* pnext;
-        node(int NumberUDK = 0, string AUTOR = "", string NAMEBOOK="", int DATA=0, int KOLVOEKZ = 0, node* pnext = nullptr)
+        node(int NumberUDK = 0, string AUTOR = "", string NAMEBOOK = "", int DATA = 0, int KOLVOEKZ = 0, node* pnext = nullptr)
         {
             this->data.NumberUDK = NumberUDK;
             this->data.AUTOR = AUTOR;
@@ -60,7 +60,7 @@ void bibl::push_back(BOOK data)
     }
     else
     {
-        node *current = this->head;
+        node* current = this->head;
         while (current->pnext != nullptr)
         {
             current = current->pnext;
@@ -72,7 +72,7 @@ void bibl::push_back(BOOK data)
 
 void bibl::push_front(BOOK data)
 {
-    head = new node(data.NumberUDK, data.AUTOR, data.NAMEBOOK, data.DATA, data.KOLVOEKZ,head);
+    head = new node(data.NumberUDK, data.AUTOR, data.NAMEBOOK, data.DATA, data.KOLVOEKZ, head);
     Size++;
 }
 
@@ -92,7 +92,7 @@ BOOK& bibl::operator[](const int index)
 
 void bibl::pop_front()
 {
-    node *temp = head;
+    node* temp = head;
     head = head->pnext;
     delete temp;
     Size--;
@@ -187,20 +187,21 @@ void vozmoshnosi()
     cout << "Для добовления книги перед указанной книгой введите 2, псле указанной 3." << endl;
     cout << "Для добовления книги отсортированной по автору введите 4." << endl;
     cout << "Для удаления выбранной книги введите 5." << endl;
-    cout << "информация по книгам 6." << endl;
+    cout << "Информация по книгам 6." << endl;
+    cout << "Взять книгу 7, вернуть книгу 8." << endl;
     cout << "Для выхода из программы введите 0" << endl;
 }
-void vvoddannix(BOOK &data)
+void vvoddannix(BOOK& data)
 {
     cout << "Введите номер UDK: ";
     cin >> data.NumberUDK;
     cin.ignore();
     cout << "Введите Фамилию и инициалы автора: ";
-    getline(cin, data.AUTOR) ;
+    getline(cin, data.AUTOR);
     cout << "Введите название книги: ";
     getline(cin, data.NAMEBOOK);
     cout << "Введите год издания книги: ";
-    cin>>data.DATA;
+    cin >> data.DATA;
     cout << "Введите количество экземпляров книги: ";
     cin >> data.KOLVOEKZ;
     cin.ignore();
@@ -211,14 +212,14 @@ int main()
     setlocale(LC_ALL, "Russian");
     SetConsoleCP(1251);
     bibl a;
-    int number=0;
+    int number = 0;
     do
     {
         BOOK bookdan;
         vozmoshnosi();
         cout << "Ваш выбор: ";
         cin >> number;
-        cin.ignore();  
+        cin.ignore();
         switch (number)
         {
         case 1:
@@ -234,7 +235,7 @@ int main()
             cin >> index;
             cin.ignore();
             vvoddannix(bookdan);
-            a.insert(bookdan,index);
+            a.insert(bookdan, index);
             break;
         }
         case 3:
@@ -300,10 +301,66 @@ int main()
             }
             break;
         }
+        case 7:
+        {
+            int UDK;
+            cout << "Введите номер UDK: ";
+            cin >> UDK;
+            cin.ignore();
+            bool p = true;
+            for (int i = 0; i < a.GetSize(); i++)
+            {
+                if (a[i].NumberUDK == UDK)
+                {
+                    if (a[i].KOLVOEKZ > 0) {
+                        cout << "книга успешно выдана" << endl;
+                        a[i].KOLVOEKZ--;
+                    }
+                    else
+                    {
+                        cout << "Данная книга отсутствует." << endl;
+                    }
+                    p = false;
+                    break;
+                }
+
+            }
+            if (p == true)
+            {
+                cout << "Неверный номер UDK" << endl;
+            }
+            break;
+
+        }
+        case 8:
+        {
+            int UDK;
+            cout << "Введите номер UDK: ";
+            cin >> UDK;
+            cin.ignore();
+            bool p = true;
+            for (int i = 0; i < a.GetSize(); i++)
+            {
+                if (a[i].NumberUDK == UDK)
+                {
+                    cout << "Книга успешно возвращена" << endl;
+                    a[i].KOLVOEKZ++;
+                    p = false;
+                    break;
+                }
+
+            }
+            if (p == true)
+            {
+                cout << "Неверный номер UDK" << endl;
+            }
+            break;
+        }
         default:
+            cout << "неверно введённые данные!" << endl;
             break;
         }
 
-    } while (number!=0);
+    } while (number != 0);
     return 0;
 }
